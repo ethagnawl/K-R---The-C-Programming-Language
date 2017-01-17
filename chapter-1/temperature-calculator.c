@@ -1,33 +1,30 @@
 #include <stdio.h>
 
+#define LOWER 0
+#define UPPER 300
+#define STEP 20
+
 // print Fahrenheit - Celcius table
 // for fahr = 0..300
 
 main () {
     float fahr, celsius;
-    int lower,
-        upper,
-        step;
-
-    lower = 0;
-    upper = 300;
-    step = 20;
-    fahr = upper;
 
     printf("Fahrenheit - Celcius\n");
     printf("==========\n");
-    while(fahr >= lower) {
+    fahr = UPPER;
+    while(fahr >= LOWER) {
         celsius = (5.0 / 9.0) * (fahr - 32.0);
         printf("%3.0f %6.1f\n", fahr, celsius);
-        fahr = fahr - step;
+        fahr = fahr - STEP;
     }
 
     printf("Celcius - Fahrenheit \n");
     printf("==========\n");
-    celsius = upper;
-    while(celsius >= lower) {
+    celsius = UPPER;
+    while(celsius >= LOWER) {
         fahr = (9.0 / 5.0) * celsius + 32.0;
         printf("%3.0f %6.1f\n", celsius, fahr);
-        celsius = celsius - step;
+        celsius = celsius - STEP;
     }
 }
