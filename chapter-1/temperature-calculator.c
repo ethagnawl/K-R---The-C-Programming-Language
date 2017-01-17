@@ -12,22 +12,22 @@ main () {
     lower = 0;
     upper = 300;
     step = 20;
-    fahr = lower;
+    fahr = upper;
 
     printf("Fahrenheit - Celcius\n");
     printf("==========\n");
-    while(fahr <= upper) {
+    while(fahr >= lower) {
         celsius = (5.0 / 9.0) * (fahr - 32.0);
         printf("%3.0f %6.1f\n", fahr, celsius);
-        fahr = fahr + step;
+        fahr = fahr - step;
     }
 
     printf("Celcius - Fahrenheit \n");
     printf("==========\n");
-    celsius = lower;
-    while(celsius <= upper) {
+    celsius = upper;
+    while(celsius >= lower) {
         fahr = (9.0 / 5.0) * celsius + 32.0;
         printf("%3.0f %6.1f\n", celsius, fahr);
-        celsius = celsius + step;
+        celsius = celsius - step;
     }
 }
