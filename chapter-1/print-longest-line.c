@@ -13,6 +13,7 @@ main (void) {
 
     max = 0;
     while((length = get_line(line, MAX_LINE_LENGTH)) > 0) {
+        /* printf("length is %d\n", length); */
         if (length > max) {
             max = length;
             copy(longest_line, line);
@@ -20,28 +21,36 @@ main (void) {
     }
 
     if (max > 0) {
-        printf("%s", longest_line);
+        printf("Longest line length: %d\n", max);
+        printf("Longest line (abridged): %s\n", longest_line);
     }
 
     return 0;
 }
 
+// inspired by Richard Heathfield's answer
 int get_line(char line[], int max_line_length) {
     int c,
-        i;
+        i,
+        j;
 
-    for (i = 0; i < (max_line_length - 1) &&
-         (c = getchar()) != EOF &&
-         c != '\n'; ++i) {
-        line[i] = c;
+    // i continues to be incremented, even though the contents after
+    // MAX_LINE_LENGTH aren't copied into line.
+    for (i = 0, j = 0; (c = getchar())!=EOF && c != '\n'; ++i) {
+        if (i < (max_line_length - 1)) {
+            line[j++] = c;
+        }
     }
 
     if (c == '\n') {
-        line[i] = c;
+        if (i < (max_line_length - 1)) {
+            line[j++] = c;
+        }
         ++i;
     }
 
-    line[i] = '\0';
+    line[j] = '\0';
+
     return i;
 }
 
@@ -53,4 +62,3 @@ void copy(char to[], char from[]) {
         ++i;
     }
 }
-
