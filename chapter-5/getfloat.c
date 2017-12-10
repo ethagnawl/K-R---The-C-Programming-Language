@@ -80,7 +80,9 @@ int getFloat(float *pn) {
 
 int main() {
     float i;
-    getFloat(&i);
+
+    getFloat(&i); // extremely naive; e.g. 222.22 => 222.220001
+
     printf("i is: %f\n", i);
     return 0;
 }
