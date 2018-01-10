@@ -97,7 +97,6 @@ int my_numcmp(char *s1, char *s2) {
     }
 }
 
-// stolen: http://clc-wiki.net/wiki/K%26R2_solutions:Chapter_5:Exercise_14
 int my_rev_numcmp(char *n1, char *n2) {
     return my_numcmp((char*)n2, (char*)n1);
 }
@@ -121,10 +120,19 @@ static int rev_strcmp_wrapper(void* s1, void* s2) {
   return strcmp((char*)s2, (char*)s1);
 }
 
+static int fold_case_strcmp_wrapper(void* s1, void* s2) {
+  return strcasecmp((char*)s1, (char*)s2);
+}
+
+static int rev_fold_case_strcmp_wrapper(void* s1, void* s2) {
+  return strcasecmp((char*)s2, (char*)s1);
+}
+
 int main(int argc, char *argv[]) {
-    int nlines;
-    int numeric = 0;
-    int reverse = 0;
+    int nlines,
+        numeric = 0,
+        reverse = 0,
+        fold_case = 0;
     static int (*sort_function) (void* n1, void* n2);
 
     if (argc > 1) {
@@ -133,6 +141,8 @@ int main(int argc, char *argv[]) {
                 numeric = 1;
             } else if (strcmp(*flag, "-r") == 0) {
                 reverse = 1;
+            } else if (strcmp(*flag, "-f") == 0) {
+                fold_case = 1;
             } else {
                 printf("Unknown option: %s\n", *flag);
             }
@@ -144,10 +154,14 @@ int main(int argc, char *argv[]) {
             sort_function = numcmp_wrapper;
         } else if (numeric == 1 && reverse == 1) {
             sort_function = rev_numcmp_wrapper;
-        } else if (numeric == 0 && reverse == 0) {
+        } else if (numeric == 0 && reverse == 0 && fold_case == 0) {
             sort_function = strcmp_wrapper;
-        } else if (numeric == 0 && reverse == 1) {
+        } else if (numeric == 0 && reverse == 1 && fold_case == 0) {
             sort_function = rev_strcmp_wrapper;
+        } else if (numeric == 0 && reverse == 0 && fold_case == 1) {
+            sort_function = fold_case_strcmp_wrapper;
+        } else if (numeric == 0 && reverse == 1 && fold_case == 1) {
+            sort_function = rev_fold_case_strcmp_wrapper;
         }
 
         my_qsort((void **) lineptr, 0, (nlines - 1),
